@@ -1,4 +1,4 @@
-package com.example.onlinefoodorder.ui.theme
+package com.example.deliveryfood.ui.theme
 
 import android.app.Activity
 import android.os.Build
@@ -38,7 +38,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun OnlineFoodOrderTheme(
+fun DeliveryFoodTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,

@@ -1,4 +1,4 @@
-package com.example.onlinefoodorder.ui.theme
+package com.example.deliveryfood.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
