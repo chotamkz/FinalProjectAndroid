@@ -9,4 +9,19 @@ object Constants {
     const val CART = "Cart"
 
     const val ADD_TO_CART = "Add to cart"
+
+    const val LOG_IN = "Log in"
+    const val LOGIN_TEXT = "Login"
+    const val PASSWORD_TEXT = "Password"
+    const val SIGN_IN = "Sign in"
+    const val CREATE_ACCOUNT = "Create an account"
+
+    const val REGISTRY = "Registry"
+    const val APPLY = "Apply"
+
+    const val YOUR_CART = "Your cart"
+    const val PAY = "Pay"
+    const val PAY_CLICKED = "Order paid"
+
+    const val CONTENT_DESCRIPTION = "Content description"
 }
