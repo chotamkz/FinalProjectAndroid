@@ -238,29 +238,32 @@ fun MealImage(image: String) {
 
 @Composable
 fun MealInfo(title: String, description: String, viewModel: MenuViewModel) {
+    var isExpanded by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .padding(start = 16.dp)
-
+            .clickable { isExpanded = !isExpanded }
     ) {
         Text(
             text = title,
             color = MaterialTheme.colors.onSurface,
             style = MaterialTheme.typography.h6,
-            maxLines = 1,
+            maxLines = if (isExpanded) Int.MAX_VALUE else 1,
             overflow = TextOverflow.Ellipsis
         )
         Text(
             text = description,
             style = MaterialTheme.typography.body2,
             color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f),
-            maxLines = 3,
+            maxLines = if (isExpanded) Int.MAX_VALUE else 3, // Expand text when clicked
             overflow = TextOverflow.Ellipsis
         )
         Spacer(modifier = Modifier.height(8.dp))
         AddToCartButton(title, viewModel)
     }
 }
+
 
 @Composable
 fun AddToCartButton(title: String, viewModel: MenuViewModel) {
