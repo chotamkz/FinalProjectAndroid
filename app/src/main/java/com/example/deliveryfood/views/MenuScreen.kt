@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -29,6 +30,7 @@ import com.example.deliveryfood.utils.MyUtils
 import com.example.deliveryfood.viewmodels.MenuViewModel
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
+import coil.compose.AsyncImage
 
 @Composable
 fun MenuScreen(viewModel: MenuViewModel = hiltViewModel()) {
@@ -91,33 +93,43 @@ fun CitiesDropDownMenu() {
 @Composable
 fun Banners() {
     val bannerList = listOf(
-        R.drawable.pizza,
-        R.drawable.steak,
-        R.drawable.salade,
-        R.drawable.soda,
-            R.drawable.coffee
+        R.drawable.dodo,
+        R.drawable.burger,
+        R.drawable.mfood,
+        R.drawable.kfc
     )
+
+    val customShape = RoundedCornerShape(
+        topStart = 16.dp,
+        topEnd = 16.dp,
+        bottomEnd = 16.dp,
+        bottomStart = 16.dp
+    )
+
     LazyRow(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .padding(horizontal = 0.dp, vertical = 8.dp)
     ) {
-        items(bannerList) { item ->
+        items(bannerList) { banner ->
             Card(
                 modifier = Modifier
-                    .padding(top = 15.dp, start = 15.dp, end = 15.dp)
-                    .background(White),
-                shape = MaterialTheme.shapes.small,
-                elevation = 4.dp
+                    .padding(all = 15.dp)
+                    .height(140.dp)
+                    .fillParentMaxWidth(0.92f),
+                shape = customShape,
             ) {
-                Image(
-                    painter = painterResource(id = item),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop
+                AsyncImage(
+                    modifier = Modifier
+                        .padding(all = 0.dp)
+                        .fillMaxSize(),
+                    model = banner,
+                    contentDescription = "Banner Image",
+                    contentScale = ContentScale.FillWidth
                 )
             }
         }
     }
 }
-
 @Composable
 fun Categories(categoryList: List<CategoryEntity>, viewModel: MenuViewModel) {
     val context = LocalContext.current
