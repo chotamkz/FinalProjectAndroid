@@ -24,4 +24,6 @@ object Constants {
     const val PAY_CLICKED = "Order paid"
 
     const val CONTENT_DESCRIPTION = "Content description"
+    const val DETAILS_ROUTE = "details_screen"
+
 }

@@ -5,23 +5,24 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.example.deliveryfood.R
 import com.example.deliveryfood.models.db.CategoryEntity
 import com.example.deliveryfood.models.db.MealEntity
@@ -181,6 +182,7 @@ fun SetScreen(
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
+            .background(MaterialTheme.colors.background)
     ) {
 
         item {
@@ -192,63 +194,88 @@ fun SetScreen(
         }
 
         items(mealList) { item ->
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(15.dp)
-                    .background(White),
-                shape = MaterialTheme.shapes.small,
-                elevation = 4.dp
-            ) {
-                Row(
-                    modifier = Modifier
-                        .background(White),
-                    horizontalArrangement = Arrangement.SpaceAround,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    GlideImage(
-                        imageModel = item.image,
-                        imageOptions = ImageOptions(
-                            contentScale = ContentScale.Crop,
-                        ),
-                        modifier = Modifier
-                            .weight(1F),
-                    )
-                    Column(
-                        modifier = Modifier
-                            .weight(1F),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = item.title,
-                            modifier = Modifier
-                                .padding(start = 15.dp, end = 15.dp, bottom = 15.dp),
-                            color = Black,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            fontSize = 18.sp
-                        )
-                        Text(
-                            text = item.description,
-                            modifier = Modifier
-                                .padding(start = 15.dp, end = 15.dp, bottom = 15.dp),
-                            color = Black,
-                            fontSize = 14.sp,
-                            maxLines = 10,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                        OutlinedButton(
-                            onClick = { viewModel.addClicked(item.title, 1) },
-                        ) {
-                            Text(
-                                text = Constants.ADD_TO_CART,
-                                color = Black,
-                                fontSize = 14.sp,
-                            )
-                        }
-                    }
-                }
-            }
+            MealCard(item, viewModel)
         }
     }
 }
+
+@Composable
+fun MealCard(meal: MealEntity, viewModel: MenuViewModel) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .clip(RoundedCornerShape(8.dp)),
+        elevation = 2.dp
+    ) {
+        Row(
+            modifier = Modifier
+                .background(MaterialTheme.colors.surface)
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            MealImage(meal.image)
+            MealInfo(meal.title, meal.description, viewModel)
+        }
+    }
+}
+
+@Composable
+fun MealImage(image: String) {
+    GlideImage(
+        imageModel = image,
+        imageOptions = ImageOptions(
+            contentScale = ContentScale.Crop,
+        ),
+        modifier = Modifier
+            .size(100.dp)
+            .clip(CircleShape)
+    )
+}
+
+@Composable
+fun MealInfo(title: String, description: String, viewModel: MenuViewModel) {
+    Column(
+        modifier = Modifier
+            .padding(start = 16.dp)
+
+    ) {
+        Text(
+            text = title,
+            color = MaterialTheme.colors.onSurface,
+            style = MaterialTheme.typography.h6,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+        Text(
+            text = description,
+            style = MaterialTheme.typography.body2,
+            color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f),
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        AddToCartButton(title, viewModel)
+    }
+}
+
+@Composable
+fun AddToCartButton(title: String, viewModel: MenuViewModel) {
+    Button(
+        onClick = { viewModel.addClicked(title, 1) },
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = MaterialTheme.colors.error,
+            contentColor = MaterialTheme.colors.onPrimary
+        ),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(
+            text = Constants.ADD_TO_CART,
+            style = MaterialTheme.typography.button
+        )
+    }
+}
+
+
+

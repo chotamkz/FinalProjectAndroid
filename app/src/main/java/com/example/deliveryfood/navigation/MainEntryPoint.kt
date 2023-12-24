@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -49,7 +50,9 @@ fun BottomNavigation(navController: NavHostController) {
     val currentDestination = newBackStackEntry?.destination
 
     BottomNavigation(
-        backgroundColor = Color.LightGray
+        backgroundColor = MaterialTheme.colors.background,
+        contentColor = MaterialTheme.colors.primary,
+        elevation = 10.dp
     ) {
         screens.forEach { screen ->
             AddItem(
@@ -69,12 +72,16 @@ fun RowScope.AddItem(
 ) {
     BottomNavigationItem(
         label = {
-            Text(text = screen.title)
+            Text(
+                text = screen.title,
+                color = if (currentDestination?.route == screen.route) MaterialTheme.colors.primary else MaterialTheme.colors.onSurface
+            )
         },
         icon = {
             Icon(
                 painterResource(id = screen.icon),
-                contentDescription = "Navigation Icon"
+                contentDescription = "Navigation Icon",
+                tint = if (currentDestination?.route == screen.route) MaterialTheme.colors.primary else MaterialTheme.colors.onSurface
             )
         },
         selected = currentDestination?.hierarchy?.any {
@@ -85,6 +92,9 @@ fun RowScope.AddItem(
                 popUpTo(navController.graph.findStartDestination().id)
                 launchSingleTop = true
             }
-        }
+        },
+        alwaysShowLabel = false,
+        selectedContentColor = MaterialTheme.colors.primary,
+        unselectedContentColor = MaterialTheme.colors.onSurface.copy(alpha = 0.6f)
     )
 }
