@@ -43,7 +43,7 @@ fun MenuScreen(viewModel: MenuViewModel = hiltViewModel()) {
             .fillMaxSize()
             .background(White)
     ) {
-        CitiesDropDownMenu()
+        //CitiesDropDownMenu()
         categoryList?.let { listCategory ->
             mealList?.let { listMeal ->
                 SetScreen(listCategory, listMeal, viewModel)
@@ -52,9 +52,9 @@ fun MenuScreen(viewModel: MenuViewModel = hiltViewModel()) {
     }
 }
 
-@Composable
+/*@Composable
 fun CitiesDropDownMenu() {
-    val citiesList = listOf("London", "Paris", "Berlin")
+    val citiesList = listOf("", "", "")
     val expanded = remember { mutableStateOf(false) }
     val currentValue = remember { mutableStateOf(citiesList[0]) }
     Row(modifier = Modifier
@@ -88,7 +88,7 @@ fun CitiesDropDownMenu() {
             }
         }
     }
-}
+}*/
 
 @Composable
 fun Banners() {
