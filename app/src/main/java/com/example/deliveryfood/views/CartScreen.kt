@@ -46,7 +46,7 @@ fun AppBar(viewModel: CartViewModel) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 15.dp)
-            .background(color = Color.Gray),
+            .background(color = Color.LightGray),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {

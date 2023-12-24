@@ -1,5 +1,6 @@
 package com.example.deliveryfood.views
 
+import android.content.Context
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -134,43 +135,44 @@ fun Banners() {
 @Composable
 fun Categories(categoryList: List<CategoryEntity>, viewModel: MenuViewModel) {
     val context = LocalContext.current
+
     LazyRow(
         modifier = Modifier
-            .background(White)
+            .background(MaterialTheme.colors.background)
+            .padding(vertical = 8.dp)
     ) {
         items(categoryList) { item ->
-            Card(
-                modifier = Modifier
-                    .padding(15.dp)
-                    .background(White),
-                shape = MaterialTheme.shapes.small,
-                elevation = 4.dp
-            ) {
-                Text(
-                    text = item.title,
-                    color = Black,
-                    fontSize = 16.sp,
-                    modifier = Modifier
-                        .background(White)
-                        .padding(start = 8.dp, end = 8.dp, top = 10.dp, bottom = 10.dp)
-                        .clickable {
-                            if (MyUtils.isInternetAvailable(context)) {
-                                viewModel.getMealByCategory(item.title)
-                            }
-                        }
-                )
-            }
+            CategoryCard(item, viewModel, context)
         }
     }
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(0.5.dp)
-            .background(Color.Gray)
-    ) {
 
+    Divider(color = MaterialTheme.colors.onSurface.copy(alpha = 0.2f))
+}
+
+@Composable
+fun CategoryCard(item: CategoryEntity, viewModel: MenuViewModel, context: Context) {
+    Card(
+        modifier = Modifier
+            .padding(horizontal = 8.dp, vertical = 4.dp)
+            .clickable {
+                if (MyUtils.isInternetAvailable(context)) {
+                    viewModel.getMealByCategory(item.title)
+                }
+            },
+        shape = RoundedCornerShape(8.dp),
+        elevation = 8.dp,//depth
+        backgroundColor = MaterialTheme.colors.surface
+    ) {
+        Text(
+            text = item.title,
+            color = MaterialTheme.colors.onSurface,
+            style = MaterialTheme.typography.subtitle1,
+            modifier = Modifier
+                .padding(all = 12.dp)
+        )
     }
 }
+
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
