@@ -10,11 +10,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.example.deliveryfood.utils.Constants
 import com.example.deliveryfood.viewmodels.ProfileViewModel
 
 @Composable
-fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel()) {
+fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel(), navController: NavHostController) {
 
     var login by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -45,7 +46,9 @@ fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel()) {
         }
 
         Button(
-            onClick = { /*TODO*/ }) {
+            onClick = {
+                navController.navigate(Constants.REGISTRY)
+            }) {
             Text(text = Constants.CREATE_ACCOUNT)
         }
     }
