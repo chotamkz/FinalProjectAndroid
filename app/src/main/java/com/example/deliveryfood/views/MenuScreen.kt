@@ -150,25 +150,32 @@ fun Categories(categoryList: List<CategoryEntity>, viewModel: MenuViewModel) {
 }
 
 @Composable
-fun CategoryCard(item: CategoryEntity, viewModel: MenuViewModel, context: Context) {
+fun CategoryCard(
+    item: CategoryEntity,
+    viewModel: MenuViewModel,
+    context: Context
+) {
+    val isSelected = viewModel.selectedCategory.value?.title == item.title
+    val backgroundColor = if (isSelected) MaterialTheme.colors.primary else MaterialTheme.colors.surface
+    val textColor = if (isSelected) MaterialTheme.colors.onPrimary else MaterialTheme.colors.onSurface
+
     Card(
         modifier = Modifier
             .padding(horizontal = 8.dp, vertical = 4.dp)
             .clickable {
                 if (MyUtils.isInternetAvailable(context)) {
-                    viewModel.getMealByCategory(item.title)
+                    viewModel.selectCategory(item)
                 }
             },
         shape = RoundedCornerShape(8.dp),
-        elevation = 8.dp,//depth
-        backgroundColor = MaterialTheme.colors.surface
+        elevation = 8.dp, //depth
+        backgroundColor = backgroundColor
     ) {
         Text(
             text = item.title,
-            color = MaterialTheme.colors.onSurface,
+            color = textColor,
             style = MaterialTheme.typography.subtitle1,
-            modifier = Modifier
-                .padding(all = 12.dp)
+            modifier = Modifier.padding(all = 12.dp)
         )
     }
 }

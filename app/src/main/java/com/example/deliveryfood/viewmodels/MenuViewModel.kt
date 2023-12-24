@@ -1,5 +1,6 @@
 package com.example.deliveryfood.viewmodels
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,6 +16,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
+import androidx.compose.runtime.State
+
 
 @HiltViewModel
 class MenuViewModel @Inject constructor(private val repository: FoodRepository) : ViewModel() {
@@ -54,6 +57,14 @@ class MenuViewModel @Inject constructor(private val repository: FoodRepository) 
                 }
             })
         }
+    }
+
+    private val _selectedCategory = mutableStateOf<CategoryEntity?>(null)
+    val selectedCategory: State<CategoryEntity?> = _selectedCategory
+
+    fun selectCategory(category: CategoryEntity) {
+        _selectedCategory.value = category
+        getMealByCategory(category.title)
     }
 
     fun getMealByCategory(category: String) {
