@@ -254,7 +254,7 @@ fun MealInfo(title: String, description: String, viewModel: MenuViewModel) {
             text = description,
             style = MaterialTheme.typography.body2,
             color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f),
-            maxLines = 2,
+            maxLines = 3,
             overflow = TextOverflow.Ellipsis
         )
         Spacer(modifier = Modifier.height(8.dp))
